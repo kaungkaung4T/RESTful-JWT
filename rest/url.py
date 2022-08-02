@@ -2,6 +2,8 @@ from django.urls import path, include
 from rest import views
 
 urlpatterns = [
+    path("api", views.getRoutes),
+
     # POSTMAN
     path("resting", views.Resting.as_view(), name="resting"),
     path("resting/<str:pk>", views.Resting.as_view(), name="update"),
