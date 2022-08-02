@@ -1,0 +1,19 @@
+
+.content {
+    margin:auto;
+    width:700px;
+}
+
+h1 {
+    color:;
+}
+
+
+@media (max-width:500px)
+{
+    body {
+        margin:auto;
+        width: 500px;
+    }
+
+}

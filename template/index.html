@@ -1,5 +1,17 @@
-<h1>Hello</h1>
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
 
 
 
-<center>{{i}}</center>
+<center>
+    <h1>Hello</h1>
+    {{i}}
+
+</center>
+
+
+
+{% endblock %}
