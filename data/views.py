@@ -11,7 +11,7 @@ def index(request):
 
 
 def registration(request):
-    if request.method == "POST"
+    if request.method == "POST":
         user = request.POST["username"]
         email = request.POST["email"]
         password1 = request.POST["password1"]
@@ -41,7 +41,7 @@ def registration(request):
 def login(request):
     if request.method == "POST":
         user = request.POST["username"]
-        password1 = request.POST["password"]
+        password1 = request.POST["password1"]
 
         u = auth.authenticate(username=user, password=password1)
 
