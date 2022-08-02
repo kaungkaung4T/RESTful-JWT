@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from data.models import Item
 from data.form import ItemForm
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -6,8 +7,10 @@ from django.contrib import messages
 
 
 def index(request):
-    i = ItemForm()
-    return render(request, "index.html", {"i":i})
+    item = Item.objects.all()
+    itemForm = ItemForm()
+    return render(request, "index.html",
+                  {"item": item, "itemForm":itemForm})
 
 
 def registration(request):

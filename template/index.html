@@ -5,7 +5,13 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
+<div style="margin:auto;width:1300px;">
 
+
+<div style="background-color:red;float:left">
+    {{ item }}
+    
+</div>
 
 <div class="content">
     {% if user.is_authenticated %}
@@ -15,11 +21,11 @@
     {% endif %}
 
     <form action="" method="POST" enctype="multipart/form-data">
-    {{i|crispy}}
+    {{itemForm|crispy}}
         <button class="btn btn-sm btn-primary" type="submit">Create</button>
     </form>
 </div>
 
 
-
+</div>
 {% endblock %}
