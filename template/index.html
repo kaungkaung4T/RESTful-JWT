@@ -8,12 +8,39 @@
 <div style="margin:auto;width:1300px;">
 
 
-<div style="background-color:red;float:left">
-    {{ item }}
-    
+    <div style="float:left">
+         {% for items in item %}
+
+    <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{ items.name }} ({{ items.user }})</h5>
+    <p class="card-text">{{ items.description }}</p>
+      <p class="card-text">{{ items.price }}</p>
+      <form action="{% url 'delete_item' items.id %}" method="POST" style="display:inline;">
+          {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+      <a href="{% url 'update_item' items.id %}" class="btn btn-sm btn-primary">Update</a>
+  </div>
+</div><br>
+        {% endfor %}
 </div>
 
 <div class="content">
+    {% for mes in messages %}
+
+    {% if 'info' in mes.tags %}
+    <div class="alert alert-danger" role="alert">
+          {{ mes }}!
+        </div>
+    {% else %}
+    <div class="alert alert-primary" role="alert">
+          {{ mes }}!
+        </div>
+    {% endif %}
+
+    {% endfor %}
+
     {% if user.is_authenticated %}
     <h3>Hello {{ user }}</h3>
     {% else %}
@@ -21,11 +48,12 @@
     {% endif %}
 
     <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
     {{itemForm|crispy}}
         <button class="btn btn-sm btn-primary" type="submit">Create</button>
     </form>
 </div>
 
-
 </div>
+
 {% endblock %}

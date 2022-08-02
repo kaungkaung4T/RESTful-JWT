@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<div class="content">
+    {% if user.is_authenticated %}
+    <h3>Hello {{ user }}</h3>
+    {% else %}
+    <h3>Please create account</h3>
+    {% endif %}
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    {{itemForm|crispy}}
+        <button class="btn btn-sm btn-primary" type="submit">Update</button>
+    </form>
+</div>
+
+
+{% endblock %}

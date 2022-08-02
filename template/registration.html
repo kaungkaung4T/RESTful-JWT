@@ -8,11 +8,19 @@
 
 <div class="content">
     {% for mes in messages %}
-        <div class="alert alert-primary" role="alert">
+
+        {% if 'info' in mes.tags %}
+    <div class="alert alert-danger" role="alert">
           {{ mes }}!
         </div>
+    {% else %}
+    <div class="alert alert-primary" role="alert">
+          {{ mes }}!
+        </div>
+    {% endif %}
+
     {% endfor %}
-    <form action="login" method="POST">
+    <form action="registration" method="POST">
             {% csrf_token %}
         <div class="mb-3">
     <label class="form-label">Username</label>
