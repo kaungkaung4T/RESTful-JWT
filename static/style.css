@@ -4,6 +4,24 @@
     width:400px;
 }
 
+
+.indexContent2 {
+    margin:auto;
+    width:500px;
+}
+
+.indexContent3 {
+    margin:auto;
+    width:700px;
+}
+
+
+.indexContent {
+    margin:auto;
+    width:1300px;
+}
+
+
 h1 {
     color:;
 }
@@ -16,6 +34,20 @@ h1 {
         width: 500px;
     }
     .content {
+        margin:auto;
+        width:300px;
+    }
+
+    .indexContent {
+        margin:auto;
+        width:300px;
+    }
+    .indexContent2 {
+        margin:auto;
+        width:300px;
+    }
+
+    .indexContent3 {
         margin:auto;
         width:300px;
     }

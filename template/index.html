@@ -5,28 +5,9 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
-<div style="margin:auto;width:1300px;">
+<div class="indexContent">
 
-
-    <div style="float:left">
-         {% for items in item %}
-
-    <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">{{ items.name }} ({{ items.user }})</h5>
-    <p class="card-text">{{ items.description }}</p>
-      <p class="card-text">{{ items.price }}</p>
-      <form action="{% url 'delete_item' items.id %}" method="POST" style="display:inline;">
-          {% csrf_token %}
-    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-      </form>
-      <a href="{% url 'update_item' items.id %}" class="btn btn-sm btn-primary">Update</a>
-  </div>
-</div><br>
-        {% endfor %}
-</div>
-
-<div class="content">
+<div class="indexContent2" style="float:left;margin-bottom:60px;">
     {% for mes in messages %}
 
     {% if 'info' in mes.tags %}
@@ -53,6 +34,26 @@
         <button class="btn btn-sm btn-primary" type="submit">Create</button>
     </form>
 </div>
+
+
+    <div class="indexContent3" style="float:right;">
+         {% for items in item %}
+
+    <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{ items.name }} ({{ items.user }})</h5>
+    <p class="card-text">{{ items.description }}</p>
+      <p class="card-text">{{ items.price }}</p>
+      <form action="{% url 'delete_item' items.id %}" method="POST" style="display:inline;">
+          {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+      <a href="{% url 'update_item' items.id %}" class="btn btn-sm btn-primary">Update</a>
+  </div>
+</div><br>
+        {% endfor %}
+</div>
+
 
 </div>
 
