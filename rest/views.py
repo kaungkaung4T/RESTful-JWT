@@ -22,7 +22,7 @@ class Resting(APIView):
             return Response(item.data)
         return Response(item.errors)
 
-    def put(self, pk, request):
+    def put(self, request, pk):
         item = Item.objects.get(id=pk)
         its = ItemSerializer(item, data=request.data)
         if its.is_valid():
@@ -30,9 +30,43 @@ class Resting(APIView):
             return Response(its.data)
         return Response(its.errors)
 
-    def delete(self, pk):
+    def delete(self, request, pk):
         item = Item.objects.get(id=pk)
         item.delete()
         data = {"success": "success"}
         return Response(data=data)
 
+
+# FBV default
+@api_view(["GET"])
+def get(request):
+    item = Item.objects.all()
+    its = ItemSerializer(item, many=True)
+    return Response(its.data)
+
+
+@api_view(["POST"])
+def post(request):
+    its = ItemSerializer(data=request.data)
+    if its.is_valid():
+        its.save()
+        return Response(its.data)
+    return Response(its.errors)
+
+
+@api_view(["PUT"])
+def put(request, pk):
+    item = Item.objects.get(id=pk)
+    its = ItemSerializer(item, data=request.data)
+    if its.is_valid():
+        its.save()
+        return Response(its.data)
+    return Response(its.errors)
+
+
+@api_view(["DELETE"])
+def delete(request, pk):
+    item = Item.objects.get(id=pk)
+    item.delete()
+    data = {"success":"success"}
+    return Response(data=data)
