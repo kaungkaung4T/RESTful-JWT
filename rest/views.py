@@ -7,7 +7,24 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 # Create your views here.
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 @api_view(["GET"])
@@ -20,7 +37,7 @@ def getRoutes(request):
     return Response(routes)
 
 
-# CBV Tested with POST man
+# CBV Tested with POST man, all tests have been successed
 class Resting(APIView):
     def get(self, request):
         item = Item.objects.all()
@@ -49,7 +66,7 @@ class Resting(APIView):
         return Response(data=data)
 
 
-# FBV default
+# FBV default, all tests have been successed
 @api_view(["GET"])
 def get(request):
     item = Item.objects.all()
