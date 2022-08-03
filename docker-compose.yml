@@ -10,10 +10,19 @@ services:
     depends_on:
       - db
 
+
+
   db:
-    image: mysql:5.7
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: 'django-app-db'
+      MYSQL_HOST: '127.0.0.1'
+      MYSQL_PORT: '3306'
+      MYSQL_DATABASE: 'restjwt'
+      MYSQL_USER: 'root'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      MYSQL_ROOT_HOST: '%'
     volumes:
-      - ./data/mysql/dbb:/var/lib/mysql
+      - ./db/mysql/db:/var/lib/mysql
+    ports:
+      - "3308:3306"
