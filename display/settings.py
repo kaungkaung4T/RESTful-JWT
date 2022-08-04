@@ -134,10 +134,10 @@ WSGI_APPLICATION = 'display.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'restjwt',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': '127.0.0.1',
+        'NAME': 'rj',
+        'USER': 'user',
+        'PASSWORD': 'pass',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
