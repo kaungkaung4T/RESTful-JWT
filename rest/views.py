@@ -34,15 +34,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @api_view(["GET"])
 def getRoutes(request):
     routes = [
+        # Creating tokens and refresh with SIMPLE JWT
         "/api/token",
         "/api/token/refresh",
+
+        # Creating tokens and refresh MANUALLY with SIMPLE JWT
         "/api/registration_api",
-        "/api/login",
+        "/api/login_api",
     ]
 
     return Response(routes)
 
-
+# Creating tokens MANUALLY with SIMPLE JWT
 class Registration_api(APIView):
     serializer_class = UserSerializer
 
@@ -55,6 +58,8 @@ class Registration_api(APIView):
 
 
 class Login_api(APIView):
+    serializer_class = LoginSerializer
+
     def post(self, request):
         ls = LoginSerializer(data=request.data)
         if ls.is_valid():
@@ -63,10 +68,10 @@ class Login_api(APIView):
             if user:
                 refresh = RefreshToken.for_user(user)
 
-                return {
+                return Response(data={
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                }
+                })
 
         error = {
             "error":"error",
