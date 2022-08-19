@@ -13,6 +13,8 @@ from rest.serializer import LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+from rest_framework import status
 # Create your views here.
 
 
@@ -67,16 +69,33 @@ class Login_api(APIView):
 
             if user:
                 refresh = RefreshToken.for_user(user)
+                # response = Response()
+                # response.set_cookie(key='refresh_token', value=refresh, httponly=True)
 
-                return Response(data={
+                data = {
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                })
+                }
+                return Response(data=data, status=status.HTTP_201_CREATED)
 
         error = {
             "error":"error",
         }
         return Response(data=error)
+
+
+class Logout_api(APIView):
+
+    def post(self, request, format=None):
+        try:
+            token = request.data.get('refresh_token')
+            token_obj = RefreshToken(token)
+            token_obj.blacklist()
+
+            return Response(status=status.HTTP_200_OK)
+
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # CBV Tested with POST man, all tests have been successed
