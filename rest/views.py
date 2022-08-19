@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
+from rest.serializer import UserSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -32,17 +33,22 @@ def getRoutes(request):
     routes = [
         "/api/token",
         "/api/token/refresh",
-        "api/registration",
+        "api/registration_api",
         "api/login",
     ]
 
     return Response(routes)
 
 
+class Registration_api(APIView):
+    serializer_class = UserSerializer
 
-
-
-
+    def post(self, request):
+        us = UserSerializer(data=request.data)
+        if us.is_valid():
+            us.save()
+            return Response(us.data)
+        return Response(us.errors)
 
 
 # CBV Tested with POST man, all tests have been successed
