@@ -31,10 +31,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def getRoutes(request):
     routes = [
         "/api/token",
-        "/api/token/refresh"
+        "/api/token/refresh",
+        "api/registration",
+        "api/login",
     ]
 
     return Response(routes)
+
+
+
+
+
+
 
 
 # CBV Tested with POST man, all tests have been successed
