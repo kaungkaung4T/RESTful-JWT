@@ -21,6 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class LoginSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item

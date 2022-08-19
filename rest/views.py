@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import auth
 from data.models import Item
 from rest.serializer import ItemSerializer
 from rest_framework import serializers
@@ -7,7 +8,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest.serializer import UserSerializer
+from rest.serializer import LoginSerializer
 
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 # Create your views here.
@@ -33,8 +36,8 @@ def getRoutes(request):
     routes = [
         "/api/token",
         "/api/token/refresh",
-        "api/registration_api",
-        "api/login",
+        "/api/registration_api",
+        "/api/login",
     ]
 
     return Response(routes)
@@ -49,6 +52,26 @@ class Registration_api(APIView):
             us.save()
             return Response(us.data)
         return Response(us.errors)
+
+
+class Login_api(APIView):
+    def post(self, request):
+        ls = LoginSerializer(data=request.data)
+        if ls.is_valid():
+            user = auth.authenticate(username=ls.data["username"], password=ls.data["password"])
+
+            if user:
+                refresh = RefreshToken.for_user(user)
+
+                return {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                }
+
+        error = {
+            "error":"error",
+        }
+        return Response(data=error)
 
 
 # CBV Tested with POST man, all tests have been successed
