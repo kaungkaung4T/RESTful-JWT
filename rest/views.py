@@ -47,6 +47,23 @@ def getRoutes(request):
 
     return Response(routes)
 
+
+            #  *** -------------
+            #
+            # token create session
+            #
+            #  ------------- ***
+
+
+# Creating tokens MANUALLY with pyjwt
+class Registration_api_2(APIView):
+    pass
+
+
+
+
+
+
 # Creating tokens MANUALLY with SIMPLE JWT
 class Registration_api(APIView):
     serializer_class = UserSerializer
@@ -96,6 +113,18 @@ class Logout_api(APIView):
 
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+            #  *** -------------
+            #
+            # model api create session
+            #
+            #  ------------- ***
+
+
 
 
 # CBV Tested with POST man, all tests have been successed
