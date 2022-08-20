@@ -1,5 +1,7 @@
+import datetime
+import jwt
 from django.shortcuts import render
-from django.contrib.auth.models import auth
+from django.contrib.auth.models import auth, User
 from data.models import Item
 from rest.serializer import ItemSerializer
 from rest_framework import serializers
@@ -43,6 +45,9 @@ def getRoutes(request):
         # Creating tokens and refresh MANUALLY with SIMPLE JWT
         "/api/registration_api",
         "/api/login_api",
+
+        # Creating tokens and refresh with pyjwt
+        "/api/registration_api2",
     ]
 
     return Response(routes)
@@ -55,12 +60,40 @@ def getRoutes(request):
             #  ------------- ***
 
 
-# Creating tokens MANUALLY with pyjwt
+# Creating tokens with pyjwt
 class Registration_api_2(APIView):
-    pass
+    serializer_class = UserSerializer
+    def post(self, request):
+        us = UserSerializer(data=request.data)
+        if us.is_valid():
+            us.save()
+            return Response(us.data)
+        return Response(us.errors)
 
 
+class Login_api_2(APIView):
+    serializer_class = LoginSerializer
+    def post(self, request):
+        ls = LoginSerializer(data=request.data)
+        if ls.is_valid():
+            user = auth.authenticate(username=ls.data["username"], password=ls.data["password"])
+            if user:
+                user = User.objects.get(username=ls.data["username"])
+                payload = {
+                    "id": user.id,
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+                    "iat": datetime.datetime.utcnow()
+                }
 
+                key = "secret"
+                token = jwt.encode(payload, key, algorithm="HS256")
+
+                response = Response()
+                response.set_cookie(key='jwt', value=token, httponly=True)
+                response.data = {
+                    "jwt": token
+                }
+                return response
 
 
 

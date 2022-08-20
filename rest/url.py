@@ -9,6 +9,11 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path("api", views.getRoutes),
 
+    # pyJWT
+    path("api/registration_api2", views.Registration_api_2.as_view(), name="registration_api2"),
+    path("api/login_api2", views.Login_api_2.as_view(), name="login_api2"),
+
+    # simpleJWT
     path("api/registration_api", views.Registration_api.as_view(), name="registration_api"),
     path("api/login_api", views.Login_api.as_view(), name="login_api"),
     path("api/logout_api", views.Logout_api.as_view(), name="logout_api"),
