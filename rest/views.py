@@ -97,6 +97,10 @@ class Login_api_2(APIView):
 
 
 
+
+
+
+
 # Creating tokens MANUALLY with SIMPLE JWT
 class Registration_api(APIView):
     serializer_class = UserSerializer
