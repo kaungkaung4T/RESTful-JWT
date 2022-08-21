@@ -77,6 +77,7 @@ class Login_api_2(APIView):
         ls = LoginSerializer(data=request.data)
         if ls.is_valid():
             user = auth.authenticate(username=ls.data["username"], password=ls.data["password"])
+
             if user:
                 user = User.objects.get(username=ls.data["username"])
                 payload = {

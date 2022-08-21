@@ -18,13 +18,16 @@ def access_decode(token):
 
 
 def refresh_encode(id):
-    pass
+    payload = {
+        "id": id,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=40)
+        "iat": datetime.datetime.utcnow()
+    }
+    return jwt.encode(payload, "secret", algorithm="HS256")
 
 
+def refresh_decode(token):
+    payload = jwt.decode(token, "secret", algorithm="HS256")
 
-
-
-
-
-
+    return payload["id"]
 
