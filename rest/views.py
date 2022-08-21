@@ -87,6 +87,9 @@ class Login_api_2(APIView):
                 access = access_encode(user)
                 refresh = refresh_encode(user)
 
+                response = Response()
+                response.set_cookie(key="refresh_token", value=refresh, httponly=True)
+
                 data = {
                     "access": access,
                     "refresh": refresh,
