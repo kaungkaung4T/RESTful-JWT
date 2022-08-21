@@ -55,11 +55,19 @@ def getRoutes(request):
     return Response(routes)
 
 
+
+
+
+
+
             #  *** -------------
             #
-            # token create session
+            # token create session with pyjwt
             #
             #  ------------- ***
+
+
+
 
 
 # Creating tokens with pyjwt
@@ -90,13 +98,33 @@ class Login_api_2(APIView):
                 response = Response()
                 response.set_cookie(key="refresh_token", value=refresh, httponly=True)
 
-                data = {
+                response.data = {
                     "access": access,
                     "refresh": refresh,
                 }
-                return Response(data=data)
+                return response
 
 
+class Logout_api2(APIView):
+    def post(self, _):
+        response = Response()
+        response.delete_cookie(key="refresh_token")
+        response.data = {
+            "success": "success",
+        }
+        return response
+
+
+
+
+
+
+
+            # *** -------------
+            #
+            # token create session MANUALLY with SIMPLE JWT
+            #
+            #  ------------- ***
 
 
 
@@ -156,11 +184,15 @@ class Logout_api(APIView):
 
 
 
+
+
+
             #  *** -------------
             #
             # model api create session
             #
             #  ------------- ***
+
 
 
 

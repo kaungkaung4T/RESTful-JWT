@@ -12,12 +12,14 @@ urlpatterns = [
     # pyJWT
     path("api/registration_api2", views.Registration_api_2.as_view(), name="registration_api2"),
     path("api/login_api2", views.Login_api_2.as_view(), name="login_api2"),
+    path("api/logout_api2", views.Logout_api2.as_view(), name="logout_api2"),
 
-    # simpleJWT
+    # simpleJWT MANUALLY
     path("api/registration_api", views.Registration_api.as_view(), name="registration_api"),
     path("api/login_api", views.Login_api.as_view(), name="login_api"),
     path("api/logout_api", views.Logout_api.as_view(), name="logout_api"),
 
+    # simpleJWT
     path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
