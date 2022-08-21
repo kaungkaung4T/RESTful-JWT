@@ -1,6 +1,6 @@
 import jwt
 import datetime
-
+from rest_framework import exceptions
 
 def access_encode(user):
     payload = {
@@ -9,13 +9,16 @@ def access_encode(user):
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
         "iat": datetime.datetime.utcnow()
     }
-    return jwt.encode(payload, "secret", algorithm="HS256")
+    return jwt.encode(payload, "a secret", algorithm="HS256")
 
 
 def access_decode(token):
-    payload = jwt.decode(token, "secret", algorithm="HS256")
+    try:
+        payload = jwt.decode(token, "a secret", algorithms="HS256")
+        return payload["id"]
 
-    return payload["id"]
+    except Exception as e:
+        raise exceptions.AuthenticationFailed("unauthenticated")
 
 
 def refresh_encode(user):
@@ -25,11 +28,13 @@ def refresh_encode(user):
         "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=40),
         "iat": datetime.datetime.utcnow(),
     }
-    return jwt.encode(payload, "secret", algorithm="HS256")
+    return jwt.encode(payload, "r secret", algorithm="HS256")
 
 
 def refresh_decode(token):
-    payload = jwt.decode(token, "secret", algorithm="HS256")
-
-    return payload["id"]
+    try:
+        payload = jwt.decode(token, "r secret", algorithms="HS256")
+        return payload["id"]
+    except Exception as e:
+        raise exceptions.AuthenticationFailed("unauthenticated")
 

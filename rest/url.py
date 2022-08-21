@@ -13,6 +13,7 @@ urlpatterns = [
     path("api/registration_api2", views.Registration_api_2.as_view(), name="registration_api2"),
     path("api/login_api2", views.Login_api_2.as_view(), name="login_api2"),
     path("api/logout_api2", views.Logout_api2.as_view(), name="logout_api2"),
+    path("api/refresh_api2", views.Refresh_api.as_view(), name="refresh_api2"),
 
     # simpleJWT MANUALLY
     path("api/registration_api", views.Registration_api.as_view(), name="registration_api"),

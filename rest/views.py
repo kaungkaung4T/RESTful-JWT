@@ -105,6 +105,22 @@ class Login_api_2(APIView):
                 return response
 
 
+class Refresh_api(APIView):
+    def post(self, request):
+        token = request.COOKIES.get("refresh_token")
+
+        response = Response()
+        id = refresh_decode(token)
+
+        user = User.objects.get(id=id)
+        access = access_encode(user)
+
+        response.data = {
+            "access":access,
+        }
+        return response
+
+
 class Logout_api2(APIView):
     def post(self, _):
         response = Response()
