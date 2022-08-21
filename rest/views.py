@@ -17,6 +17,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from rest_framework import status
+from rest.authentication import access_encode, access_decode, refresh_encode, refresh_decode
 # Create your views here.
 
 
@@ -48,6 +49,7 @@ def getRoutes(request):
 
         # Creating tokens and refresh with pyjwt
         "/api/registration_api2",
+        "/api/loin_api2"
     ]
 
     return Response(routes)
@@ -63,6 +65,7 @@ def getRoutes(request):
 # Creating tokens with pyjwt
 class Registration_api_2(APIView):
     serializer_class = UserSerializer
+
     def post(self, request):
         us = UserSerializer(data=request.data)
         if us.is_valid():
@@ -73,6 +76,7 @@ class Registration_api_2(APIView):
 
 class Login_api_2(APIView):
     serializer_class = LoginSerializer
+
     def post(self, request):
         ls = LoginSerializer(data=request.data)
         if ls.is_valid():
@@ -80,21 +84,14 @@ class Login_api_2(APIView):
 
             if user:
                 user = User.objects.get(username=ls.data["username"])
-                payload = {
-                    "id": user.id,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-                    "iat": datetime.datetime.utcnow()
-                }
+                access = access_encode(user)
+                refresh = refresh_encode(user)
 
-                key = "secret"
-                token = jwt.encode(payload, key, algorithm="HS256")
-
-                response = Response()
-                response.set_cookie(key='jwt', value=token, httponly=True)
-                response.data = {
-                    "jwt": token
+                data = {
+                    "access": access,
+                    "refresh": refresh,
                 }
-                return response
+                return Response(data=data)
 
 
 

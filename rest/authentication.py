@@ -2,9 +2,10 @@ import jwt
 import datetime
 
 
-def access_encode(id):
+def access_encode(user):
     payload = {
-        "id": id,
+        "name": user.username,
+        "id": user.id,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
         "iat": datetime.datetime.utcnow()
     }
@@ -17,11 +18,12 @@ def access_decode(token):
     return payload["id"]
 
 
-def refresh_encode(id):
+def refresh_encode(user):
     payload = {
-        "id": id,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=40)
-        "iat": datetime.datetime.utcnow()
+        "name": user.username,
+        "id": user.id,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=40),
+        "iat": datetime.datetime.utcnow(),
     }
     return jwt.encode(payload, "secret", algorithm="HS256")
 
