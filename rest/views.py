@@ -196,12 +196,12 @@ class Login_api(APIView):
         }
         return Response(data=error)
 
-
+import base64
 class User_api(APIView):
     def post(self, request):
         token = request.data.get("refresh_token")
-        payload = jwt.decode(token, "secret", algorithms="HS256")
-        user = User.objects.get(username=payload["username"])
+        payload = jwt.decode(token, "django-insecure-by-sfr1)qov@nvb$8cni97k5i%^hr_x93-r@66ee^v=2$uavwl", algorithms="HS256")
+        user = User.objects.get(id=payload["user_id"])
         us = UserSerializer(user)
         return Response(us.data)
 
@@ -238,6 +238,7 @@ class Logout_api(APIView):
 
 # CBV Tested with POST man, all tests have been successed
 class Resting(APIView):
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request):
         item = Item.objects.all()

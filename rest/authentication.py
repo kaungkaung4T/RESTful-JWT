@@ -9,12 +9,12 @@ def access_encode(user):
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
         "iat": datetime.datetime.utcnow()
     }
-    return jwt.encode(payload, "a secret", algorithm="HS256")
+    return jwt.encode(payload, "access_secret", algorithm="HS256")
 
 
 def access_decode(token):
     try:
-        payload = jwt.decode(token, "a secret", algorithms="HS256")
+        payload = jwt.decode(token, "access_secret", algorithms="HS256")
         return payload["id"]
 
     except Exception as e:
@@ -28,12 +28,12 @@ def refresh_encode(user):
         "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=40),
         "iat": datetime.datetime.utcnow(),
     }
-    return jwt.encode(payload, "r secret", algorithm="HS256")
+    return jwt.encode(payload, "refresh_secret", algorithm="HS256")
 
 
 def refresh_decode(token):
     try:
-        payload = jwt.decode(token, "r secret", algorithms="HS256")
+        payload = jwt.decode(token, "refresh_secret", algorithms="HS256")
         return payload["id"]
     except Exception as e:
         raise exceptions.AuthenticationFailed("unauthenticated")
