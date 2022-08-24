@@ -47,15 +47,19 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'crispy_forms',
+    'rest_framework.authtoken',
 ]
 
 crispy_template_pack = 'bootstrap4'
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
-    #         'rest_framework.permissions.IsAuthenticated',
+    #     'rest_framework.permissions.AllowAny',
+    #     'rest_framework.permissions.IsAdminUser',
+    #     'rest_framework.permissions.IsAuthenticated',
     #    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -65,7 +69,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=40),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
@@ -197,4 +201,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
-REST_USE_JWT = True

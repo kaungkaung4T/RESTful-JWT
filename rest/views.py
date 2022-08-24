@@ -109,14 +109,21 @@ class Login_api_2(APIView):
                 }
                 return response
 
-
+from rest_framework.authentication import get_authorization_header
+from rest_framework.exceptions import AuthenticationFailed
 class User_api2(APIView):
     def get(self, request):
-        token = request.COOKIES.get("refresh_token")
-        id = refresh_decode(token)
-        user = User.objects.filter(id=id).first()
-        us = UserSerializer(user)
-        return Response(us.data)
+        auth = get_authorization_header(request).split()
+
+        if auth and len(auth) == 2:
+            token = auth[1].decode('utf-8')
+            id = access_decode(token)
+
+            user = User.objects.filter(pk=id).first()
+            us = UserSerializer(user)
+            return Response(us.data)
+
+        raise AuthenticationFailed('unauthenticated')
 
 
 class Refresh_api2(APIView):
@@ -196,7 +203,8 @@ class Login_api(APIView):
         }
         return Response(data=error)
 
-import base64
+
+# NO need to do this, JUST A TEST
 class User_api(APIView):
     def post(self, request):
         token = request.data.get("refresh_token")
@@ -238,6 +246,9 @@ class Logout_api(APIView):
 
 # CBV Tested with POST man, all tests have been successed
 class Resting(APIView):
+    # authentication_classes = (
+    #     JwtAuthentication, BearerAuthenticationAllowInactiveUser, SessionAuthenticationAllowInactiveUser
+    # )
     permission_classes = (IsAuthenticated, )
 
     def get(self, request):
