@@ -109,6 +109,7 @@ class Login_api_2(APIView):
                 }
                 return response
 
+
 from rest_framework.authentication import get_authorization_header
 from rest_framework.exceptions import AuthenticationFailed
 class User_api2(APIView):
@@ -243,12 +244,13 @@ class Logout_api(APIView):
 
 
 
-
+# from rest_framework.authentication import TokenAuthentication
 # CBV Tested with POST man, all tests have been successed
 class Resting(APIView):
     # authentication_classes = (
     #     JwtAuthentication, BearerAuthenticationAllowInactiveUser, SessionAuthenticationAllowInactiveUser
     # )
+    # authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated, )
 
     def get(self, request):
