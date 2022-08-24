@@ -13,12 +13,14 @@ urlpatterns = [
     path("api/registration_api2", views.Registration_api_2.as_view(), name="registration_api2"),
     path("api/login_api2", views.Login_api_2.as_view(), name="login_api2"),
     path("api/logout_api2", views.Logout_api2.as_view(), name="logout_api2"),
-    path("api/refresh_api2", views.Refresh_api.as_view(), name="refresh_api2"),
+    path("api/refresh_api2", views.Refresh_api2.as_view(), name="refresh_api2"),
+    path("api/user_api2", views.User_api2.as_view(), name="user_api2"),
 
     # simpleJWT MANUALLY
     path("api/registration_api", views.Registration_api.as_view(), name="registration_api"),
     path("api/login_api", views.Login_api.as_view(), name="login_api"),
     path("api/logout_api", views.Logout_api.as_view(), name="logout_api"),
+    path("api/user_api", views.User_api.as_view(), name="user_api"),
 
     # simpleJWT
     path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -17,6 +17,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest.authentication import access_encode, access_decode, refresh_encode, refresh_decode
 # Create your views here.
 
@@ -46,10 +47,14 @@ def getRoutes(request):
         # Creating tokens and refresh MANUALLY with SIMPLE JWT
         "/api/registration_api",
         "/api/login_api",
+        "/api/logout_api",
 
         # Creating tokens and refresh with pyjwt
         "/api/registration_api2",
-        "/api/loin_api2"
+        "/api/loin_api2",
+        "/api/refresh_api2",
+        "/api/user_api2",
+        "/api/logout_api2",
     ]
 
     return Response(routes)
@@ -105,7 +110,16 @@ class Login_api_2(APIView):
                 return response
 
 
-class Refresh_api(APIView):
+class User_api2(APIView):
+    def get(self, request):
+        token = request.COOKIES.get("refresh_token")
+        id = refresh_decode(token)
+        user = User.objects.filter(id=id).first()
+        us = UserSerializer(user)
+        return Response(us.data)
+
+
+class Refresh_api2(APIView):
     def post(self, request):
         token = request.COOKIES.get("refresh_token")
 
@@ -183,6 +197,15 @@ class Login_api(APIView):
         return Response(data=error)
 
 
+class User_api(APIView):
+    def post(self, request):
+        token = request.data.get("refresh_token")
+        payload = jwt.decode(token, "secret", algorithms="HS256")
+        user = User.objects.get(username=payload["username"])
+        us = UserSerializer(user)
+        return Response(us.data)
+
+
 class Logout_api(APIView):
 
     def post(self, request, format=None):
@@ -215,6 +238,7 @@ class Logout_api(APIView):
 
 # CBV Tested with POST man, all tests have been successed
 class Resting(APIView):
+
     def get(self, request):
         item = Item.objects.all()
         its = ItemSerializer(item, many=True)
